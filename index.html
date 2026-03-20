@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shambhavi Mahamudra guided kriya practice timer">
+  <title>Shambhavi Timer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Lato:wght@300;400&family=Tiro+Devanabari&family=Cinzel:wght@400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/oat.css/oat.min.css">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #F5EFE6;
+      --bg-card: #FDF8F2;
+      --text: #2C2416;
+      --text-muted: #7A6A52;
+      --accent: #C8832A;
+      --accent-glow: #E8A040;
+      --ring-bg: #DDD0BC;
+      --border: #E0D5C5;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lato', system-ui, sans-serif;
+      --font-sanskrit: 'Tiro Devanabari', Georgia, serif;
+      --font-light: 300;
+      --font-regular: 400;
+      --font-semibold: 600;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1A1510;
+        --bg-card: #231E17;
+        --text: #F0E8DC;
+        --text-muted: #A89070;
+        --accent: #D4922E;
+        --ring-bg: #3A3025;
+      }
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: var(--font-regular);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .screen.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .screen { animation: none; }
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-weight: var(--font-semibold);
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    h1:focus { outline: none; }
+
+    h2 {
+      font-family: var(--font-heading);
+      font-weight: var(--font-regular);
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .subtitle {
+      font-family: var(--font-heading);
+      font-weight: var(--font-regular);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      width: 100%;
+    }
+
+    .info-card {
+      text-align: center;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+      cursor: pointer;
+    }
+
+    .checkbox-wrapper input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .checkbox-wrapper label {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .btn {
+      font-family: var(--font-body);
+      font-weight: var(--font-regular);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      padding: 0.875rem 2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      min-height: 48px;
+      min-width: 48px;
+      transition: all 0.2s ease-out;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-glow);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn:focus {
+      outline: 3px solid var(--accent-glow);
+      outline-offset: 2px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .button-group.two-buttons {
+        flex-wrap: nowrap;
+      }
+      .button-group.two-buttons .btn {
+        min-width: 160px;
+      }
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .modal h2 { margin-bottom: 1rem; color: var(--text); }
+    .modal p { margin-bottom: 1.5rem; color: var(--text-muted); }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--ring-bg);
+      margin-bottom: 1.5rem;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.3s ease-out;
+    }
+
+    .step-name {
+      font-family: var(--font-heading);
+      font-weight: var(--font-semibold);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      text-align: center;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .step-name.aum-mode::after {
+      content: "";
+      display: block;
+      font-size: 0.4em;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .step-description {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    .step-counter {
+      font-family: var(--font-body);
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    /* DEBUG FIX BUG 1: timer text centering - switched to overlay approach */
+    .timer-ring-container {
+      position: relative;
+      width: min(70vw, 280px);
+      height: min(70vw, 280px);
+      margin: 1rem auto;
+    }
+
+    .timer-ring {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .timer-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--ring-bg);
+      stroke-width: 8;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 565.48;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.2s ease-out;
+    }
+
+    .ring-fill.warning { stroke: var(--accent-glow); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring-fill { transition: none; }
+    }
+
+    .ring-text {
+      font-family: 'Cinzel', var(--font-heading);
+      font-weight: var(--font-semibold);
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+    }
+
+    .ring-round {
+      font-family: var(--font-body);
+      font-weight: var(--font-light);
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      .timer-ring-container {
+        width: min(50vw, 200px);
+        height: min(50vw, 200px);
+      }
+      .step-name { margin-bottom: 0.5rem; }
+      .step-description { margin-bottom: 1rem; }
+      .screen { padding: 1rem 0; }
+    }
+
+    .tab-hidden-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--accent);
+      color: white;
+      padding: 0.75rem;
+      text-align: center;
+      font-size: 0.95rem;
+      z-index: 100;
+      display: none;
+    }
+
+    .tab-hidden-banner.active { display: block; }
+
+    .mantra {
+      text-align: center;
+      margin: 1.5rem 0;
+      width: 100%;
+    }
+
+    .mantra-title {
+      font-family: var(--font-heading);
+      font-weight: var(--font-regular);
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .sanskrit {
+      font-family: var(--font-sanskrit);
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      line-height: 1.8;
+      color: var(--text);
+      margin: 0.5rem 0;
+    }
+
+    .transliteration {
+      font-family: var(--font-heading);
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0.5rem 0;
+      font-weight: var(--font-regular);
+    }
+
+    .mantra-meaning {
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 1.5rem auto;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    .instruction {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      margin: 1.5rem 0;
+      font-style: italic;
+    }
+
+    .summary {
+      text-align: center;
+      margin: 1.5rem 0;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+    }
+
+    .summary p { margin: 0.5rem 0; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 320px) {
+      .container { padding: 0.75rem; }
+      .timer-ring-container {
+        width: min(65vw, 200px);
+        height: min(65vw, 200px);
+      }
+      .button-group { gap: 0.75rem; }
+      .btn { width: 100%; }
+    }
+
+    .modal-overlay.restart-modal { z-index: 2000; }
+    .restart-confirm .modal h2 { color: var(--text); }
+    .restart-confirm .modal p { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div id="sr-announce" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <div id="tab-hidden-banner" class="tab-hidden-banner">
+    Practice paused. <button id="resume-tab-btn" class="btn-primary" style="display: inline-block; padding: 0.25rem 1rem; margin-left: 1rem; min-height: auto; font-size: 0.9rem;">Resume Practice</button>
+  </div>
+
+  <div id="skip-advisory" class="modal-overlay" role="dialog" aria-labelledby="skip-advisory-title" aria-describedby="skip-advisory-desc">
+    <div class="modal">
+      <h2 id="skip-advisory-title">Skip Preparatory Steps?</h2>
+      <p id="skip-advisory-desc">You have chosen to skip the preparatory steps. You will proceed directly to Shambhavi Mahamudra practice.</p>
+      <div class="button-group">
+        <button id="include-prep" class="btn btn-secondary" aria-label="Include preparatory steps">Include Preparatory</button>
+        <button id="skip-anyway" class="btn btn-primary" aria-label="Skip preparatory steps anyway">Skip Anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="restart-confirm" class="modal-overlay restart-modal" role="dialog" aria-labelledby="restart-title" aria-describedby="restart-desc">
+    <div class="modal restart-confirm">
+      <h2 id="restart-title">Restart Session?</h2>
+      <p id="restart-desc">Are you sure you want to restart? Your current progress will be lost.</p>
+      <div class="button-group">
+        <button id="restart-cancel" class="btn btn-secondary" aria-label="Cancel restart">Cancel</button>
+        <button id="restart-confirm-btn" class="btn btn-primary" aria-label="Confirm restart">Restart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="welcome-screen" class="screen active" tabindex="-1">
+      <h1 tabindex="-1">Shambhavi Mahamudra</h1>
+      <p class="subtitle">Guided Kriya Practice</p>
+
+      <div class="card info-card">
+        <p id="duration-display">Total duration: ~25 minutes</p>
+      </div>
+
+      <div class="checkbox-wrapper">
+        <input type="checkbox" id="skip-prep-checkbox">
+        <label for="skip-prep-checkbox">Skip preparatory steps</label>
+      </div>
+
+      <div class="button-group">
+        <button id="start-practice-btn" class="btn btn-primary" aria-label="Start practice">Start Practice</button>
+      </div>
+    </div>
+
+    <div id="invocation-screen" class="screen" tabindex="-1">
+      <h1 tabindex="-1">Invocation</h1>
+      <div id="invocation-mantra" class="mantra">
+        <p class="sanskrit-title mantra-title">Opening Invocation</p>
+        <p class="sanskrit">ॐ असतो मा सद्गमय ।</p>
+        <p class="sanskrit">तमसो मा ज्योतिर्गमय ।</p>
+        <p class="sanskrit">मृत्योर्मा अमृतं गमय ।</p>
+        <p class="sanskrit">ॐ शान्तिः शान्तिः शान्तिः ॥</p>
+        <p class="transliteration">Om Asato Maa Sad-Gamaya |</p>
+        <p class="transliteration">Tamaso Maa Jyotir-Gamaya |</p>
+        <p class="transliteration">Mrtyor-Maa Amrtam Gamaya |</p>
+        <p class="transliteration">Om Shaantih Shaantih Shaantih ||</p>
+        <blockquote class="mantra-meaning">
+          "Lead me from the unreal to the Real.<br>
+          Lead me from darkness to Light.<br>
+          Lead me from death to Immortality.<br>
+          Om Peace, Peace, Peace."
+        </blockquote>
+      </div>
+      <p class="instruction">Take a moment to recite this invocation before beginning.</p>
+      <div class="button-group">
+        <button id="begin-practice-btn" class="btn btn-primary" aria-label="Begin practice">Begin Practice</button>
+      </div>
+    </div>
+
+    <div id="timer-screen" class="screen" tabindex="-1">
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+
+      <p id="step-counter" class="step-counter">Step 1 of 10</p>
+
+      <h2 id="timer-step-name" class="step-name"></h2>
+      <p id="timer-step-desc" class="step-description"></p>
+
+      <div class="timer-ring-container">
+        <svg class="timer-ring" viewBox="0 0 200 200" aria-label="Timer ring">
+          <circle class="ring-bg" cx="100" cy="100" r="90" fill="none"></circle>
+          <circle id="ring-fill" class="ring-fill" cx="100" cy="100" r="90" fill="none"></circle>
+        </svg>
+        <div id="timer-overlay" class="timer-overlay">
+          <div id="overlay-round" class="ring-round" style="display: none;">Round 1 of 21</div>
+          <div id="overlay-text" class="ring-text">00:00</div>
+        </div>
+      </div>
+
+      <div class="button-group two-buttons">
+        <button id="pause-btn" class="btn btn-secondary" aria-label="Pause timer">Pause</button>
+        <button id="skip-btn" class="btn btn-secondary" aria-label="Skip to next step">Skip</button>
+      </div>
+    </div>
+
+    <div id="completion-screen" class="screen" tabindex="-1">
+      <div id="completion-mantra" class="mantra">
+        <p class="sanskrit-title mantra-title">Closing Invocation</p>
+        <p class="sanskrit">ॐ असतो मा सद्गमय ।</p>
+        <p class="sanskrit">तमसो मा ज्योतिर्गमय ।</p>
+        <p class="sanskrit">मृत्योर्मा अमृतं गमय ।</p>
+        <p class="sanskrit">ॐ शान्तिः शान्तिः शान्तिः ॥</p>
+        <p class="transliteration">Om Asato Maa Sad-Gamaya |</p>
+        <p class="transliteration">Tamaso Maa Jyotir-Gamaya |</p>
+        <p class="transliteration">Mrtyor-Maa Amrtam Gamaya |</p>
+        <p class="transliteration">Om Shaantih Shaantih Shaantih ||</p>
+        <blockquote class="mantra-meaning">
+          "Lead me from the unreal to the Real.<br>
+          Lead me from darkness to Light.<br>
+          Lead me from death to Immortality.<br>
+          Om Peace, Peace, Peace."
+        </blockquote>
+      </div>
+
+      <h1 tabindex="-1">🙏 Practice Complete</h1>
+
+      <div class="summary">
+        <p id="summary-steps">Steps completed: 0</p>
+        <p id="summary-time">Total time: 0 minutes</p>
+      </div>
+
+      <div class="button-group">
+        <button id="restart-btn" class="btn btn-primary" aria-label="Start new session">Begin Again</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STEPS = [
+      { id: 1, phase: "preparatory", name: "Patangasana", duration: 120, description: "Soles together, hold feet, bounce knees like butterfly wings", isOptional: true, type: "standard" },
+      { id: 2, phase: "preparatory", name: "Shishupalasana – Right Leg", duration: 120, description: "Right leg extended, fold forward and reach toward the foot", isOptional: true, type: "standard" },
+      { id: 3, phase: "preparatory", name: "Shishupalasana – Left Leg", duration: 120, description: "Left leg extended, fold forward and reach toward the foot", isOptional: true, type: "standard" },
+      { id: 4, phase: "preparatory", name: "Nadi Vibhajan", duration: 240, description: "10-step alternate nostril breathing to balance Ida and Pingala", isOptional: true, type: "standard" },
+      { id: 5, phase: "shambhavi", name: "Sukh Kriya", duration: 360, description: "Exhale left, inhale left, exhale right, inhale right, repeat, end on exhale left", isOptional: false, type: "standard" },
+      { id: 6, phase: "shambhavi", name: "AUM Chanting", duration: 210, description: "In yoga mudra, chant AUM on each full exhalation, feel the vibration", isOptional: false, type: "aum_chanting" },
+      { id: 7, phase: "shambhavi", name: "Vipareet Swasa", duration: 240, description: "Rapid fluttering breath, quick continuous short inhales and exhales", isOptional: false, type: "standard" },
+      { id: 8, phase: "shambhavi", name: "Bandas – Fullness of Breath", duration: 30, description: "Inhale fully, hold, apply jalandhara, uddiyana and mula bandhas", isOptional: false, type: "standard" },
+      { id: 9, phase: "shambhavi", name: "Bandas – Emptiness of Breath", duration: 30, description: "Exhale fully, hold empty, apply jalandhara, uddiyana and mula bandhas", isOptional: false, type: "standard" },
+      { id: 10, phase: "shambhavi", name: "Observing Breath", duration: 360, description: "Simply witness the natural breath, do nothing", isOptional: false, type: "standard" }
+    ];
+
+    let state = {
+      activeSteps: [],
+      currentIndex: 0,
+      isRunning: false,
+      isPaused: false,
+      remaining: 0,
+      totalDuration: 0,
+      endTime: 0,
+      intervalId: null,
+      wakeLock: null,
+      audioCtx: null,
+      aumRound: 1,
+      sessionMode: 'full'
+    };
+
+    const SoundEngine = {
+      init() {
+        if (!state.audioCtx) {
+          state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        return state.audioCtx;
+      },
+
+      async resume() {
+        try {
+          if (state.audioCtx && state.audioCtx.state === 'suspended') {
+            await state.audioCtx.resume();
+          }
+        } catch (e) {
+          console.warn('Audio resume failed:', e);
+        }
+      },
+
+      playBell(frequency, duration, sustainGain, releaseTime, startTime = 0) {
+        try {
+          const ctx = this.init();
+          this.resume();
+
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.value = frequency;
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          const now = startTime || ctx.currentTime;
+          const attackTime = 0.01;
+          const sustainTime = duration - attackTime - releaseTime;
+
+          gain.gain.setValueAtTime(0, now);
+          gain.gain.linearRampToValueAtTime(sustainGain, now + attackTime);
+          gain.gain.setValueAtTime(sustainGain, now + attackTime + sustainTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + attackTime + sustainTime + releaseTime);
+
+          osc.start(now);
+          osc.stop(now + attackTime + sustainTime + releaseTime);
+        } catch (e) {
+          console.warn('Bell failed:', e);
+        }
+      },
+
+      playTransitionBell() { this.playBell(528, 1.2, 0.6, 0.9); },
+      playAUMBell() { this.playBell(432, 0.7, 0.4, 0.5); },
+
+      playCompleteChime() {
+        try {
+          const ctx = this.init();
+          this.resume();
+
+          const frequencies = [528, 660, 792];
+          const delays = [0, 450, 900];
+          const gains = [0.55, 0.55, 0.55];
+          const releaseTimes = [0.5, 0.6, 0.8];
+
+          frequencies.forEach((freq, i) => {
+            setTimeout(() => {
+              this.playBell(freq, 0.5 + releaseTimes[i], gains[i], releaseTimes[i]);
+            }, delays[i]);
+          });
+        } catch (e) {
+          console.warn('Complete chime failed:', e);
+        }
+      }
+    };
+
+    async function requestWakeLock() {
+      try {
+        if ('wakeLock' in navigator && !state.wakeLock) {
+          state.wakeLock = await navigator.wakeLock.request('screen');
+        }
+      } catch (e) {
+        console.warn('Wake Lock failed:', e);
+      }
+    }
+
+    function releaseWakeLock() {
+      if (state.wakeLock) {
+        state.wakeLock.release().catch(() => {});
+        state.wakeLock = null;
+      }
+    }
+
+    const TimerEngine = {
+      start(stepIndex) {
+        const step = state.activeSteps[stepIndex];
+        state.currentIndex = stepIndex;
+        state.totalDuration = step.duration;
+        state.remaining = step.duration;
+        state.endTime = Date.now() + step.duration * 1000;
+        state.isRunning = true;
+        state.isPaused = false;
+        state.aumRound = 1;
+
+        requestWakeLock();
+
+        updateTimerUI();
+        updateProgressBar();
+        updateStepCounter();
+        announceStep(step.name);
+
+        if (state.intervalId) clearInterval(state.intervalId);
+        state.intervalId = setInterval(() => this.tick(), 100);
+      },
+
+      tick() {
+        if (!state.isRunning || state.isPaused || state.intervalId === null) return;
+
+        const now = Date.now();
+        state.remaining = Math.max(0, (state.endTime - now) / 1000);
+
+        updateTimerUI();
+        updateProgressBar();
+
+        const step = state.activeSteps[state.currentIndex];
+
+        if (step.type === 'aum_chanting') {
+          const elapsed = step.duration - state.remaining;
+          const currentRound = Math.floor(elapsed / 10) + 1;
+          if (currentRound !== state.aumRound && currentRound <= 21) {
+            state.aumRound = currentRound;
+            SoundEngine.playAUMBell();
+          }
+        }
+
+        // Compute ringRemaining correctly for AUM warning
+        let ringRemaining = state.remaining;
+        if (step.type === 'aum_chanting') {
+          const elapsedInStep = step.duration - state.remaining;
+          ringRemaining = 10 - (elapsedInStep % 10);
+          ringRemaining = Math.max(0, Math.min(10, ringRemaining));
+        }
+
+        const ring = document.getElementById('ring-fill');
+        if (ringRemaining <= 10) {
+          ring.classList.add('warning');
+        } else {
+          ring.classList.remove('warning');
+        }
+
+        if (state.remaining <= 0) {
+          this.onStepComplete();
+        }
+      },
+
+      pause() {
+        if (!state.isRunning || state.isPaused) return;
+        state.isPaused = true;
+        clearInterval(state.intervalId);
+        state.intervalId = null;
+      },
+
+      resume() {
+        if (!state.isRunning || !state.isPaused) return;
+        state.isPaused = false;
+        state.endTime = Date.now() + state.remaining * 1000;
+        state.intervalId = setInterval(() => this.tick(), 100);
+      },
+
+      skip() {
+        if (!state.isRunning || state.intervalId === null) return;
+        this.onStepComplete(true);
+      },
+
+      destroy() {
+        if (state.intervalId) {
+          clearInterval(state.intervalId);
+          state.intervalId = null;
+        }
+        releaseWakeLock();
+        state.isRunning = false;
+        state.isPaused = false;
+      },
+
+      onStepComplete(skipped = false) {
+        if (!state.isRunning) return;
+
+        clearInterval(state.intervalId);
+        state.intervalId = null;
+
+        const step = state.activeSteps[state.currentIndex];
+        if (!skipped) {
+          SoundEngine.playTransitionBell();
+        }
+
+        state.currentIndex++;
+
+        if (state.currentIndex >= state.activeSteps.length) {
+          this.onSessionComplete();
+        } else {
+          this.start(state.currentIndex);
+        }
+      },
+
+      onSessionComplete() {
+        this.destroy();
+        SoundEngine.playCompleteChime();
+        showScreen('completion-screen');
+        updateCompletionSummary();
+        focusScreen('completion-screen');
+      }
+    };
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // DEBUG FIX BUG 2: AUM round text rotation and centering - use overlay elements
+    function updateTimerUI() {
+      const step = state.activeSteps[state.currentIndex];
+
+      let ringTotal = step.duration;
+      let ringRemaining = state.remaining;
+
+      if (step.type === 'aum_chanting') {
+        ringTotal = 10;
+        const elapsedInStep = step.duration - state.remaining;
+        ringRemaining = 10 - (elapsedInStep % 10);
+        ringRemaining = Math.max(0, Math.min(10, ringRemaining));
+      }
+
+      const ringFill = document.getElementById('ring-fill');
+      const circumference = 2 * Math.PI * 90;
+      const offset = circumference * (ringRemaining / ringTotal);
+      ringFill.style.strokeDashoffset = offset;
+
+      document.getElementById('overlay-text').textContent = formatTime(ringRemaining);
+
+      document.getElementById('timer-step-name').textContent = step.name;
+
+      document.getElementById('timer-step-desc').textContent = step.description;
+
+      const roundText = document.getElementById('overlay-round');
+      if (step.type === 'aum_chanting') {
+        roundText.style.display = 'block';
+        roundText.textContent = `Round ${state.aumRound} of 21`;
+      } else {
+        roundText.style.display = 'none';
+      }
+    }
+
+    function updateStepCounter() {
+      const counter = document.getElementById('step-counter');
+      counter.textContent = `Step ${state.currentIndex + 1} of ${state.activeSteps.length}`;
+    }
+
+    function updateProgressBar() {
+      let completedDuration = 0;
+      for (let i = 0; i < state.currentIndex; i++) {
+        completedDuration += state.activeSteps[i].duration;
+      }
+      const currentElapsed = state.totalDuration - state.remaining;
+      const totalSessionDuration = state.activeSteps.reduce((sum, s) => sum + s.duration, 0);
+      const percent = ((completedDuration + currentElapsed) / totalSessionDuration) * 100;
+      document.getElementById('progress-fill').style.width = `${percent}%`;
+    }
+
+    function updateCompletionSummary() {
+      const totalTime = state.activeSteps.reduce((sum, s) => sum + s.duration, 0);
+      const minutes = Math.round(totalTime / 60);
+      document.getElementById('summary-steps').textContent = `Steps completed: ${state.activeSteps.length}`;
+      document.getElementById('summary-time').textContent = `Total time: ${minutes} minutes`;
+    }
+
+    function announceStep(name) {
+      const announcer = document.getElementById('sr-announce');
+      announcer.textContent = `Starting: ${name}`;
+    }
+
+    function focusScreen(screenId) {
+      const screen = document.getElementById(screenId);
+      const heading = screen.querySelector('h1');
+      if (heading) {
+        heading.focus();
+      } else {
+        screen.focus();
+      }
+    }
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(screenId);
+      target.classList.add('active');
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    const skipPrepCheckbox = document.getElementById('skip-prep-checkbox');
+    const skipAdvisory = document.getElementById('skip-advisory');
+    const startPracticeBtn = document.getElementById('start-practice-btn');
+    const includePrepBtn = document.getElementById('include-prep');
+    const skipAnywayBtn = document.getElementById('skip-anyway');
+    const beginPracticeBtn = document.getElementById('begin-practice-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const skipBtn = document.getElementById('skip-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const restartConfirmModal = document.getElementById('restart-confirm');
+    const restartConfirmBtn = document.getElementById('restart-confirm-btn');
+    const restartCancelBtn = document.getElementById('restart-cancel');
+    const resumeTabBtn = document.getElementById('resume-tab-btn');
+
+    skipPrepCheckbox.addEventListener('change', () => {
+      const fullDuration = STEPS.reduce((sum, s) => sum + s.duration, 0);
+      const shambhaviDuration = STEPS.filter(s => s.phase === 'shambhavi')
+        .reduce((sum, s) => sum + s.duration, 0);
+      const totalMinutes = Math.round(
+        skipPrepCheckbox.checked ? shambhaviDuration / 60 : fullDuration / 60
+      );
+      document.getElementById('duration-display').textContent =
+        `Total duration: ~${totalMinutes} minutes`;
+    });
+
+    startPracticeBtn.addEventListener('click', () => {
+      if (skipPrepCheckbox.checked) {
+        state.sessionMode = 'shambhavi';
+        skipAdvisory.classList.add('active');
+      } else {
+        state.sessionMode = 'full';
+        showScreen('invocation-screen');
+        focusScreen('invocation-screen');
+      }
+    });
+
+    includePrepBtn.addEventListener('click', () => {
+      skipAdvisory.classList.remove('active');
+      state.sessionMode = 'full';
+      showScreen('invocation-screen');
+      focusScreen('invocation-screen');
+    });
+
+    skipAnywayBtn.addEventListener('click', () => {
+      skipAdvisory.classList.remove('active');
+      proceedToInvocation();
+    });
+
+    function proceedToInvocation() {
+      showScreen('invocation-screen');
+      focusScreen('invocation-screen');
+    }
+
+    beginPracticeBtn.addEventListener('click', async () => {
+      // Initialize AudioContext on user gesture to ensure all sounds work
+      SoundEngine.init();
+      try {
+        await SoundEngine.resume();
+      } catch (e) {
+        console.warn('Failed to resume audio context:', e);
+      }
+
+      const startIndex = state.sessionMode === 'shambhavi'
+        ? STEPS.findIndex(s => s.phase === 'shambhavi')
+        : 0;
+
+      state.activeSteps = STEPS.slice(startIndex);
+      state.currentIndex = 0;
+      state.aumRound = 1;
+
+      showScreen('timer-screen');
+      focusScreen('timer-screen');
+      TimerEngine.start(0);
+    });
+
+    const pauseBtnLocal = pauseBtn;
+    const debouncedPause = debounce(() => {
+      if (TimerEngine.state && TimerEngine.state.isPaused) return;
+      if (!state.isRunning) return;
+      if (state.isPaused) {
+        TimerEngine.resume();
+        pauseBtnLocal.textContent = 'Pause';
+        pauseBtnLocal.setAttribute('aria-label', 'Pause timer');
+      } else {
+        TimerEngine.pause();
+        pauseBtnLocal.textContent = 'Resume';
+        pauseBtnLocal.setAttribute('aria-label', 'Resume timer');
+      }
+    }, 200);
+
+    pauseBtnLocal.addEventListener('click', debouncedPause);
+
+    const skipBtnLocal = skipBtn;
+    const debouncedSkip = debounce(() => {
+      TimerEngine.skip();
+    }, 300);
+    skipBtnLocal.addEventListener('click', debouncedSkip);
+
+    restartBtn.addEventListener('click', () => {
+      restartConfirmModal.classList.add('active');
+    });
+
+    restartCancelBtn.addEventListener('click', () => {
+      restartConfirmModal.classList.remove('active');
+    });
+
+    restartConfirmBtn.addEventListener('click', () => {
+      restartConfirmModal.classList.remove('active');
+      performRestart();
+    });
+
+    function performRestart() {
+      TimerEngine.destroy();
+      state = {
+        activeSteps: [],
+        currentIndex: 0,
+        isRunning: false,
+        isPaused: false,
+        remaining: 0,
+        totalDuration: 0,
+        endTime: 0,
+        intervalId: null,
+        wakeLock: null,
+        audioCtx: null,
+        aumRound: 1,
+        sessionMode: 'full'
+      };
+      document.getElementById('skip-prep-checkbox').checked = false;
+      document.getElementById('duration-display').textContent =
+        `Total duration: ~${Math.round(STEPS.reduce((sum, s) => sum + s.duration, 0) / 60)} minutes`;
+      pauseBtnLocal.textContent = 'Pause';
+      pauseBtnLocal.setAttribute('aria-label', 'Pause timer');
+      showScreen('welcome-screen');
+      focusScreen('welcome-screen');
+    }
+
+    const tabBanner = document.getElementById('tab-hidden-banner');
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (state.isRunning && !state.isPaused) {
+          TimerEngine.pause();
+          tabBanner.classList.add('active');
+        }
+      }
+    });
+
+    resumeTabBtn.addEventListener('click', () => {
+      if (state.isRunning && state.isPaused) {
+        TimerEngine.resume();
+        tabBanner.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && state.isRunning) {
+        requestWakeLock();
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const totalDuration = STEPS.reduce((sum, s) => sum + s.duration, 0);
+      document.getElementById('duration-display').textContent =
+        `Total duration: ~${Math.round(totalDuration / 60)} minutes`;
+      focusScreen('welcome-screen');
+    });
+  </script>
+</body>
+</html>

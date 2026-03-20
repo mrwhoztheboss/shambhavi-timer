@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Node / npm
+node_modules/
+package-lock.json/
+yarn.lock/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.*
+.env.local
+.env.*.local
+
+# Other
+.cache/
+tmp/
+temp/
