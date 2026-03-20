@@ -34,3 +34,4 @@ npm-debug.log*
 .cache/
 tmp/
 temp/
+.claude
