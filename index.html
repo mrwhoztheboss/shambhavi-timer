@@ -48,25 +48,31 @@
       }
     }
 
-    html { font-size: 16px; }
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      position: fixed;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { font-size: 14px; }
 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
       font-weight: var(--font-regular);
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 1rem;
-      min-height: 100vh;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
     }
@@ -77,8 +83,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem 0;
-      animation: fadeIn 0.3s ease-out;
+      overflow: hidden;
+      padding: 1vh 2vw;
     }
 
     .screen.active { display: flex; }
@@ -95,9 +101,9 @@
     h1 {
       font-family: var(--font-heading);
       font-weight: var(--font-semibold);
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-size: clamp(1.25rem, 4vw, 2rem);
       text-align: center;
-      margin-bottom: 0.5rem;
+      margin: 0 0 0.5rem 0;
       color: var(--text);
     }
 
@@ -106,55 +112,55 @@
     h2 {
       font-family: var(--font-heading);
       font-weight: var(--font-regular);
-      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
       text-align: center;
-      margin-bottom: 1rem;
+      margin: 0 0 0.75rem 0;
       color: var(--text-muted);
     }
 
     .subtitle {
       font-family: var(--font-heading);
       font-weight: var(--font-regular);
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-size: clamp(0.85rem, 2vw, 1rem);
       text-align: center;
       color: var(--text-muted);
-      margin-bottom: 2rem;
+      margin: 0 0 1.5rem 0;
     }
 
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 1rem 0;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
       width: 100%;
     }
 
     .info-card {
       text-align: center;
-      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
       color: var(--text-muted);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .checkbox-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      margin: 1.5rem 0;
+      gap: 0.5rem;
+      margin: 1rem 0;
       cursor: pointer;
     }
 
     .checkbox-wrapper input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       accent-color: var(--accent);
       cursor: pointer;
     }
 
     .checkbox-wrapper label {
-      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
       cursor: pointer;
       color: var(--text);
     }
@@ -162,31 +168,31 @@
     .btn {
       font-family: var(--font-body);
       font-weight: var(--font-regular);
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      padding: 0.875rem 2rem;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      min-height: 48px;
-      min-width: 48px;
+      min-height: 44px;
+      min-width: 44px;
       transition: all 0.2s ease-out;
     }
 
     .btn-primary {
       background: var(--accent);
       color: white;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
     }
 
     .btn-primary:hover {
       background: var(--accent-glow);
       transform: translateY(-1px);
-      box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+      box-shadow: 0 3px 0 rgba(0,0,0,0.1);
     }
 
     .btn-primary:active {
       transform: translateY(1px);
-      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.1);
     }
 
     .btn-secondary {
@@ -201,14 +207,14 @@
     }
 
     .btn:focus {
-      outline: 3px solid var(--accent-glow);
+      outline: 2px solid var(--accent-glow);
       outline-offset: 2px;
     }
 
     .button-group {
       display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -218,7 +224,7 @@
         flex-wrap: nowrap;
       }
       .button-group.two-buttons .btn {
-        min-width: 160px;
+        min-width: 140px;
       }
     }
 
@@ -241,23 +247,23 @@
     .modal {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 400px;
+      border-radius: 8px;
+      padding: 1.5rem;
+      max-width: 90vw;
       width: 100%;
       text-align: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
 
-    .modal h2 { margin-bottom: 1rem; color: var(--text); }
-    .modal p { margin-bottom: 1.5rem; color: var(--text-muted); }
+    .modal h2 { margin: 0 0 0.75rem 0; color: var(--text); }
+    .modal p { margin: 0 0 1rem 0; color: var(--text-muted); }
 
     .progress-bar {
       width: 100%;
-      height: 4px;
+      height: 3px;
       background: var(--ring-bg);
-      margin-bottom: 1.5rem;
-      border-radius: 2px;
+      margin-bottom: 1rem;
+      border-radius: 1.5px;
       overflow: hidden;
     }
 
@@ -271,47 +277,47 @@
     .step-name {
       font-family: var(--font-heading);
       font-weight: var(--font-semibold);
-      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-size: clamp(1rem, 3vw, 1.5rem);
       text-align: center;
-      margin-bottom: 0.75rem;
+      margin: 0 0 0.5rem 0;
       color: var(--text);
     }
 
     .step-name.aum-mode::after {
       content: "";
       display: block;
-      font-size: 0.4em;
+      font-size: 0.5em;
       color: var(--text-muted);
-      margin-top: 0.25rem;
+      margin-top: 0.2rem;
     }
 
     .step-description {
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
       text-align: center;
       color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      max-width: 600px;
+      margin: 0 0 1rem 0;
+      max-width: 90vw;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      line-height: 1.5;
+      line-height: 1.4;
     }
 
     .step-counter {
       font-family: var(--font-body);
-      font-size: clamp(0.85rem, 2vw, 1rem);
+      font-size: clamp(0.75rem, 1.6vw, 0.9rem);
       color: var(--text-muted);
-      margin-bottom: 0.5rem;
+      margin: 0 0 0.4rem 0;
       text-align: center;
     }
 
     /* DEBUG FIX BUG 1: timer text centering - switched to overlay approach */
     .timer-ring-container {
       position: relative;
-      width: min(70vw, 280px);
-      height: min(70vw, 280px);
-      margin: 1rem auto;
+      width: min(60vw, 220px);
+      height: min(60vw, 220px);
+      margin: 0.5rem auto;
     }
 
     .timer-ring {
@@ -357,7 +363,7 @@
     .ring-text {
       font-family: 'Cinzel', var(--font-heading);
       font-weight: var(--font-semibold);
-      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
       color: var(--text);
       font-variant-numeric: tabular-nums;
       text-align: center;
@@ -366,20 +372,21 @@
     .ring-round {
       font-family: var(--font-body);
       font-weight: var(--font-light);
-      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      font-size: clamp(0.75rem, 1.8vw, 1rem);
       color: var(--text-muted);
       text-align: center;
-      margin-top: 0.5rem;
+      margin-top: 0.4rem;
     }
 
     @media (max-height: 500px) and (orientation: landscape) {
       .timer-ring-container {
-        width: min(50vw, 200px);
-        height: min(50vw, 200px);
+        width: min(40vw, 180px);
+        height: min(40vw, 180px);
       }
-      .step-name { margin-bottom: 0.5rem; }
-      .step-description { margin-bottom: 1rem; }
-      .screen { padding: 1rem 0; }
+      .step-name { margin-bottom: 0.4rem; }
+      .step-description { margin-bottom: 0.8rem; }
+      .screen { padding: 0.5rem 1vw; }
+      .ring-text { font-size: clamp(1.2rem, 5vw, 2rem); }
     }
 
     .tab-hidden-banner {
@@ -407,56 +414,56 @@
     .mantra-title {
       font-family: var(--font-heading);
       font-weight: var(--font-regular);
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       color: var(--text-muted);
-      margin-bottom: 1.5rem;
+      margin: 0 0 1rem 0;
     }
 
     .sanskrit {
       font-family: var(--font-sanskrit);
-      font-size: clamp(1.1rem, 3vw, 1.45rem);
-      line-height: 1.8;
+      font-size: clamp(0.9rem, 2.2vw, 1.2rem);
+      line-height: 1.6;
       color: var(--text);
-      margin: 0.5rem 0;
+      margin: 0.3rem 0;
     }
 
     .transliteration {
       font-family: var(--font-heading);
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      line-height: 1.6;
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      line-height: 1.4;
       color: var(--text);
-      margin: 0.5rem 0;
+      margin: 0.3rem 0;
       font-weight: var(--font-regular);
     }
 
     .mantra-meaning {
       font-family: var(--font-body);
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-size: clamp(0.8rem, 1.6vw, 0.9rem);
       font-style: italic;
       color: var(--text-muted);
-      margin: 1.5rem auto;
-      max-width: 500px;
-      line-height: 1.6;
+      margin: 1rem auto;
+      max-width: 90vw;
+      line-height: 1.5;
     }
 
     .instruction {
       text-align: center;
       color: var(--text-muted);
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      margin: 1.5rem 0;
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      margin: 1rem 0;
       font-style: italic;
     }
 
     .summary {
       text-align: center;
-      margin: 1.5rem 0;
-      font-size: clamp(1rem, 2vw, 1.2rem);
+      margin: 1rem 0;
+      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
       color: var(--text-muted);
     }
 
-    .summary p { margin: 0.5rem 0; }
+    .summary p { margin: 0.4rem 0; }
 
     .sr-only {
       position: absolute;
@@ -471,13 +478,14 @@
     }
 
     @media (max-width: 320px) {
-      .container { padding: 0.75rem; }
+      .container { padding: 0.5rem; }
       .timer-ring-container {
-        width: min(65vw, 200px);
-        height: min(65vw, 200px);
+        width: min(60vw, 180px);
+        height: min(60vw, 180px);
       }
-      .button-group { gap: 0.75rem; }
-      .btn { width: 100%; }
+      .button-group { gap: 0.5rem; }
+      .btn { width: 100%; padding: 0.6rem 1rem; font-size: 0.9rem; }
+      .ring-text { font-size: 1.4rem; }
     }
 
     .modal-overlay.restart-modal { z-index: 2000; }
