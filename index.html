@@ -49,42 +49,41 @@
     }
 
     html, body {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      position: fixed;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      background: var(--bg);
     }
 
-    html { font-size: 14px; }
+    html { font-size: 16px; }
 
     body {
-      background: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
       font-weight: var(--font-regular);
-      line-height: 1.5;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
       width: 100%;
-      max-width: 100%;
-      height: 100%;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
     .screen {
       display: none;
-      flex: 1;
+      min-height: 100vh;
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      overflow: hidden;
-      padding: 1vh 2vw;
+      align-items: center;
+      padding: 1.2rem;
+      box-sizing: border-box;
     }
 
     .screen.active { display: flex; }
@@ -101,7 +100,7 @@
     h1 {
       font-family: var(--font-heading);
       font-weight: var(--font-semibold);
-      font-size: clamp(1.25rem, 4vw, 2rem);
+      font-size: clamp(1.4rem, 5vw, 2rem);
       text-align: center;
       margin: 0 0 0.5rem 0;
       color: var(--text);
@@ -112,7 +111,7 @@
     h2 {
       font-family: var(--font-heading);
       font-weight: var(--font-regular);
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-size: clamp(1.1rem, 4vw, 1.6rem);
       text-align: center;
       margin: 0 0 0.75rem 0;
       color: var(--text-muted);
@@ -121,7 +120,7 @@
     .subtitle {
       font-family: var(--font-heading);
       font-weight: var(--font-regular);
-      font-size: clamp(0.85rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
       text-align: center;
       color: var(--text-muted);
       margin: 0 0 1.5rem 0;
@@ -138,7 +137,7 @@
 
     .info-card {
       text-align: center;
-      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      font-size: clamp(0.85rem, 1.8vw, 0.95rem);
       color: var(--text-muted);
       margin-bottom: 1rem;
     }
@@ -160,7 +159,7 @@
     }
 
     .checkbox-wrapper label {
-      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      font-size: clamp(0.85rem, 1.8vw, 0.95rem);
       cursor: pointer;
       color: var(--text);
     }
@@ -168,8 +167,8 @@
     .btn {
       font-family: var(--font-body);
       font-weight: var(--font-regular);
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
-      padding: 0.75rem 1.5rem;
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      padding: 0.6rem 1.2rem;
       border: none;
       border-radius: 6px;
       cursor: pointer;
@@ -213,8 +212,8 @@
 
     .button-group {
       display: flex;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -224,7 +223,7 @@
         flex-wrap: nowrap;
       }
       .button-group.two-buttons .btn {
-        min-width: 140px;
+        min-width: 150px;
       }
     }
 
@@ -262,7 +261,7 @@
       width: 100%;
       height: 3px;
       background: var(--ring-bg);
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       border-radius: 1.5px;
       overflow: hidden;
     }
@@ -277,7 +276,7 @@
     .step-name {
       font-family: var(--font-heading);
       font-weight: var(--font-semibold);
-      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-size: clamp(1.1rem, 4vw, 1.6rem);
       text-align: center;
       margin: 0 0 0.5rem 0;
       color: var(--text);
@@ -292,10 +291,10 @@
     }
 
     .step-description {
-      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      font-size: clamp(0.75rem, 2.5vw, 0.9rem);
       text-align: center;
       color: var(--text-muted);
-      margin: 0 0 1rem 0;
+      margin: 0 0 0.8rem 0;
       max-width: 90vw;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -306,7 +305,7 @@
 
     .step-counter {
       font-family: var(--font-body);
-      font-size: clamp(0.75rem, 1.6vw, 0.9rem);
+      font-size: clamp(0.75rem, 1.6vw, 0.85rem);
       color: var(--text-muted);
       margin: 0 0 0.4rem 0;
       text-align: center;
@@ -315,9 +314,10 @@
     /* DEBUG FIX BUG 1: timer text centering - switched to overlay approach */
     .timer-ring-container {
       position: relative;
-      width: min(60vw, 220px);
-      height: min(60vw, 220px);
-      margin: 0.5rem auto;
+      width: 100%;
+      max-width: 220px;
+      aspect-ratio: 1;
+      margin: 0 auto;
     }
 
     .timer-ring {
@@ -363,7 +363,7 @@
     .ring-text {
       font-family: 'Cinzel', var(--font-heading);
       font-weight: var(--font-semibold);
-      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
       color: var(--text);
       font-variant-numeric: tabular-nums;
       text-align: center;
@@ -378,15 +378,22 @@
       margin-top: 0.4rem;
     }
 
+    @media (min-width: 768px) {
+      .screen {
+        max-width: 480px;
+      }
+      .timer-ring-container {
+        max-width: 260px;
+      }
+    }
+
     @media (max-height: 500px) and (orientation: landscape) {
       .timer-ring-container {
-        width: min(40vw, 180px);
-        height: min(40vw, 180px);
+        max-width: 180px;
       }
       .step-name { margin-bottom: 0.4rem; }
       .step-description { margin-bottom: 0.8rem; }
-      .screen { padding: 0.5rem 1vw; }
-      .ring-text { font-size: clamp(1.2rem, 5vw, 2rem); }
+      .screen { padding: 0.8rem; }
     }
 
     .tab-hidden-banner {
@@ -414,24 +421,24 @@
     .mantra-title {
       font-family: var(--font-heading);
       font-weight: var(--font-regular);
-      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      font-size: clamp(0.85rem, 2vw, 1rem);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       color: var(--text-muted);
       margin: 0 0 1rem 0;
     }
 
     .sanskrit {
       font-family: var(--font-sanskrit);
-      font-size: clamp(0.9rem, 2.2vw, 1.2rem);
-      line-height: 1.6;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      line-height: 1.5;
       color: var(--text);
       margin: 0.3rem 0;
     }
 
     .transliteration {
       font-family: var(--font-heading);
-      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
       line-height: 1.4;
       color: var(--text);
       margin: 0.3rem 0;
@@ -451,7 +458,7 @@
     .instruction {
       text-align: center;
       color: var(--text-muted);
-      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
       margin: 1rem 0;
       font-style: italic;
     }
@@ -478,14 +485,9 @@
     }
 
     @media (max-width: 320px) {
-      .container { padding: 0.5rem; }
       .timer-ring-container {
-        width: min(60vw, 180px);
-        height: min(60vw, 180px);
+        max-width: 180px;
       }
-      .button-group { gap: 0.5rem; }
-      .btn { width: 100%; padding: 0.6rem 1rem; font-size: 0.9rem; }
-      .ring-text { font-size: 1.4rem; }
     }
 
     .modal-overlay.restart-modal { z-index: 2000; }
